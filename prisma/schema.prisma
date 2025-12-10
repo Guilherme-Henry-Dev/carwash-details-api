@@ -9,8 +9,8 @@ datasource db {
 model Cliente {
     id              Int        @id @default(autoincrement())
     nome            String
-    telefone        String
-    email           String?
+    telefone        String     @unique
+    email           String?    @unique
     createdAt       DateTime   @default(now())
 
     veiculos        Veiculo[]
