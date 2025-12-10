@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Cliente {
+    id              Int        @id @default(autoincrement())
+    nome            String
+    telefone        String
+    email           String?
+    createdAt       DateTime   @default(now())
+
+    veiculos        Veiculo[]
+    agendamentos    Agendamento[]
+    orcamentos      Orcamento[]
+}
+
+model Veiculo {
+    id              Int         @id @default(autoincrement())
+    clienteId       Int
+    placa           String
+    modelo          String
+
+    cliente         Cliente     @relation(fields: [clienteId], references: [id])
+    agendamentos    Agendamento[]
+}
+
+model Servico {
+    id              Int         @id @default(autoincrement())
+    nome            String
+    descricao       String?
+    precoBase       Float
+    createdAt       DateTime    @default(now())
+
+    agendamentos    Agendamento[]
+    orcamentos      Orcamento[]
+}
+
+model Agendamento {
+    id              Int         @id @default(autoincrement())
+    data            DateTime
+    status          String      @default("pendente")
+    clienteId       Int
+    veiculoId       Int
+    servicoId       Int
+
+    cliente         Cliente     @relation(fields: [clienteId], references: [id])
+    veiculo         Veiculo     @relation(fields: [veiculoId], references: [id])
+    servico         Servico     @relation(fields: [servicoId], references: [id])
+
+    pagamento Pagamento?
+}
+
+model Pagamento{
+    id              Int         @id @default(autoincrement())
+    agendamentoId   Int         @unique
+    valor           Float
+    metodo          String
+    pagoEm          DateTime?
+
+    agendamento     Agendamento @relation(fields: [agendamentoId], references: [id])
+}
+
+model Orcamento{
+    id Int @id @default(autoincrement())
+    clienteId Int
+    servicoId Int
+    valor Float
+    criadoEm DateTime @default(now())
+
+    cliente Cliente @relation(fields: [clienteId], references: [id])
+    servico Servico @relation(fields: [servicoId], references: [id])
+}
