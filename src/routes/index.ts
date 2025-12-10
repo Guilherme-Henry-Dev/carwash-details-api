@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const routes = Router();
 
-Router.get("/", (req, res) =>{
+routes.get("/", (req, res) =>{
     return res.json({message: "Welcome to Carwash Details API"})
 });
 
