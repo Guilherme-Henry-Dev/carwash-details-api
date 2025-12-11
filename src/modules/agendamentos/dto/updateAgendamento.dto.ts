@@ -1,5 +1,5 @@
 export interface UpdateAgendamentoDTO {
-    dataAgendada?: string;
+    data?: string | Date;
     observacao?: string;
-    status?: "PENDENTE" | "EM_ANDAMENTO" | "CONCLUIDO" | "CANCELADO";
+    status?: string;
 }
