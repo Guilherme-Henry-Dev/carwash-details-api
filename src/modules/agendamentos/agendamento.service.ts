@@ -30,10 +30,40 @@ export class AgendamentoService {
         }
     }
 
-    async findAll(){
+    async findAll(filters: any) {
+        const {
+            status,
+            clienteId,
+            veiculoId,
+            servicoId,
+            dataInicio,
+            dataFim,
+            page = 1,
+            limit = 10,
+        } = filters;
+
+        const where: any = {};
+
+        if (status) where.status = status;
+        if (clienteId) where.clienteId = Number(clienteId);
+        if (veiculoId) where.veiculoId = Number(veiculoId);
+        if (servicoId) where.servicoId = Number(servicoId);
+
+        if (dataInicio || dataFim) {
+            where.dataAgenda = {};
+
+            if (dataInicio) where.dataAgenda.gte = new Date(dataInicio);
+            if (dataFim) where.dataAgenda.lte = new Date(dataFim);
+        }
+
+        const skip = (Number(page) - 1) * Number(limit);
+
         return prisma.agendamento.findMany({
-            include: { cliente: true, veiculo: true, servico: true, pagamento: true },
-            orderBy: { dataAgendada: "desc" },
+            where,
+            skip,
+            take: Number(limit),
+            orderBy: { data: "desc" },
+            include: { cliente: true, veiculo: true, servico: true },
         });
     }
 
@@ -60,6 +90,5 @@ export class AgendamentoService {
     async delete(id: number){
         return prisma.agendamento.delete({ where: { id} });
     }
-
 
 }
