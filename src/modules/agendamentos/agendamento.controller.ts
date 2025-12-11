@@ -59,6 +59,16 @@ export class AgendamentoController {
         }
     }
 
+    async dashboard(req: Request, res: Response) {
+        try {
+            const result = await service.dashboard();
+            return res.json(result);
+        } catch {
+            return res.status(500).json({ message: "Erro ao gerar dashboard" });
+        }
+    }
+
+
     async delete(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
