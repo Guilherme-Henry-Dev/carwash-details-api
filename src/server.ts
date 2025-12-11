@@ -18,6 +18,7 @@ app.use("/servicos", servicoRoutes);
 app.use("/clientes", clienteRoutes);
 app.use("/veiculos", veiculoRoutes);
 app.use("/agendamentos", agendamentoRoutes);
+
 cancelarAtrasadosJob.start();
 
 app.listen(env.port, () =>{
