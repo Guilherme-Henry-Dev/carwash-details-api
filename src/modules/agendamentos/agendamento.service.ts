@@ -30,6 +30,57 @@ export class AgendamentoService {
         }
     }
 
+    async dashboard() {
+        const total = await prisma.agendamento.count();
+
+        const porStatus = await prisma.agendamento.groupBy({
+            by: ["status"],
+            _count: { status: true },
+        });
+
+        const topServicos = await prisma.agendamento.groupBy({
+            by: ["servicoId"],
+            _count: { servicoId: true },
+            orderBy: { _count: { servicoId: "desc" } },
+            take: 5,
+        });
+
+        const proximos = await prisma.agendamento.findMany({
+            where: { data: { gte: new Date() } },
+            orderBy: { data: "asc" },
+            take: 5,
+            include: { cliente: true, servico: true },
+        });
+
+        const inicioMes = new Date();
+        inicioMes.setDate(1);
+
+        const fimMes = new Date();
+        fimMes.setMonth(fimMes.getMonth() + 1);
+        fimMes.setDate(0);
+
+        const porDia = await prisma.agendamento.groupBy({
+            by: ["data"],
+            where: {
+                data: {
+                    gte: inicioMes,
+                    lte: fimMes,
+                },
+            },
+            _count: true,
+        });
+
+        return {
+            total,
+            porStatus,
+            topServicos,
+            proximos,
+            porDia,
+        };
+    }
+
+
+
     async findAll(filters: any) {
         const {
             status,
