@@ -6,6 +6,7 @@ import servicoRoutes from "./modules/servicos/servico.routes";
 import clienteRoutes from "./modules/clientes/cliente.routes";
 import veiculoRoutes from "./modules/veiculos/veiculo.routes";
 import agendamentoRoutes from "./modules/agendamentos/agendamento.routes";
+import { cancelarAtrasadosJob } from "./jobs/cancelarAtrasados.job";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/servicos", servicoRoutes);
 app.use("/clientes", clienteRoutes);
 app.use("/veiculos", veiculoRoutes);
 app.use("/agendamentos", agendamentoRoutes);
+cancelarAtrasadosJob.start();
 
 app.listen(env.port, () =>{
     console.log(`Server running att http://localhost:${env.port}`)
