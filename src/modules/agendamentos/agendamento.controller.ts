@@ -47,6 +47,18 @@ export class AgendamentoController {
         }
     }
 
+    async updateStatus(req: Request, res: Response){
+        try {
+            const id = Number(req.params.id);
+            const { status } = req.body;
+
+            const result = await service.updateStatus(id, status);
+            return res.json(result);
+        } catch (err: any) {
+            return res.status(400).json({  message: err.message || "Erro ao atualizar status do agendamento" });
+        }
+    }
+
     async delete(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
