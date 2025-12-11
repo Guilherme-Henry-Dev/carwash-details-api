@@ -36,7 +36,7 @@ export class AgendamentoController {
         }
     }
 
-    async updadete(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
             const result = await service.update(id, req.body);
