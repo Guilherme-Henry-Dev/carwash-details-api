@@ -46,12 +46,12 @@ model Agendamento {
     clienteId       Int
     veiculoId       Int
     servicoId       Int
-    observacao      String? 
+    observacao      String?
     atualizadoEm    DateTime    @updatedAt
 
-    cliente         Cliente     @relation(fields: [clienteId], references: [id])
-    veiculo         Veiculo     @relation(fields: [veiculoId], references: [id])
-    servico         Servico     @relation(fields: [servicoId], references: [id])
+    cliente         Cliente     @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+    veiculo         Veiculo     @relation(fields: [veiculoId], references: [id], onDelete: Cascade)
+    servico         Servico     @relation(fields: [servicoId], references: [id], onDelete: Cascade)
 
     pagamento       Pagamento?
 }
