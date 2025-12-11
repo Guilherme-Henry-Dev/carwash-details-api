@@ -87,6 +87,18 @@ export class AgendamentoService {
         });
     }
 
+    async updateStatus(id: number, status: string){
+        const valid = ["PENDENTE", "CONFIRMADO", "CANCELADO", "CONCLUIDO"];
+        if (!valid.includes(status)) {
+            throw new Error("Status inválido");
+        }
+
+        return prisma.agendamento.update({
+            where: { id },
+            data: { status },
+        });
+    }
+
     async delete(id: number){
         return prisma.agendamento.delete({ where: { id} });
     }
