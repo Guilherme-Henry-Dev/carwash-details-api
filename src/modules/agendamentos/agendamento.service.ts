@@ -20,7 +20,7 @@ export class AgendamentoService {
                     clienteId: data.clienteId,
                     veiculoId: data.veiculoId,
                     servicoId: data.servicoId,
-                    dataAgendada: new Date(data.dataAgendada),
+                    data: new Date(data.data),
                     observacao: data.observacao
                 },
             });
@@ -47,8 +47,8 @@ export class AgendamentoService {
     async update(id: number, data: UpdateAgendamentoDTO){
         const payload: any = { ...data };
 
-        if (payload.dataAgendada){
-            payload.dataAgendada = new Date(payload.dataAgendada);
+        if (payload.data){
+            payload.data = new Date(payload.data);
         }
 
         return prisma.agendamento.update({
