@@ -12,5 +12,4 @@ router.delete("/:id", controller.delete);
 router.patch("/:id/status", controller.updateStatus);
 router.get("/dashboard", controller.dashboard);
 
-
 export default router;
