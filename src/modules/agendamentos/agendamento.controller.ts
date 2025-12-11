@@ -18,7 +18,7 @@ export class AgendamentoController {
 
     async findAll (req: Request, res: Response) {
         try {
-            const result = await service.findAll();
+            const result = await service.findAll(req.query);
             return res.status(200).json(result);
         } catch (error){
             console.error(error);
